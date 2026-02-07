@@ -1,27 +1,34 @@
-const http = require("http");
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
 
-const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(
-      JSON.stringify({
-        status: "ok",
-        message: "Sipariş App API çalışıyor 🚀"
-      })
-    );
-    return;
-  }
+const app = express();
+const PORT = 3000;
 
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(
-    JSON.stringify({
-      error: "Not Found"
-    })
-  );
+app.use(express.json());
+
+const dataPath = path.join(__dirname, "data", "products.json");
+
+// Ürünleri getir
+app.get("/products", (req, res) => {
+  const data = fs.readFileSync(dataPath, "utf-8");
+  res.json(JSON.parse(data));
 });
 
-const PORT = process.env.PORT || 3000;
+// Yeni ürün ekle
+app.post("/products", (req, res) => {
+  const newProduct = req.body;
 
-server.listen(PORT, () => {
-  console.log(`Server ${PORT} portunda çalışıyor`);
+  const data = fs.readFileSync(dataPath, "utf-8");
+  const products = JSON.parse(data);
+
+  products.push(newProduct);
+
+  fs.writeFileSync(dataPath, JSON.stringify(products, null, 2));
+
+  res.status(201).json({ message: "Ürün eklendi", product: newProduct });
+});
+
+app.listen(PORT, () => {
+  console.log(`Server çalışıyor: http://localhost:${PORT}`);
 });
