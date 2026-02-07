@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": "urun-001",
+      "name": "Ürün A",
+      "baseUnit": "adet",
+      "package": {
+        "type": "paket",
+        "multiplier": 10
+      },
+      "box": {
+        "type": "koli",
+        "multiplier": 100
+      },
+      "price": 10,
+      "active": true
+    }
+  ]
+}
