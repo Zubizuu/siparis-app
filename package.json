@@ -1,8 +1,7 @@
-{
-  "name": "siparis-app",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "start": "node server/index.js"
+[
+  {
+    "id": 1,
+    "name": "Örnek Ürün",
+    "price": 100
   }
-}
+]
